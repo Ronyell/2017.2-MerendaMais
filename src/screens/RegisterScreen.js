@@ -30,8 +30,6 @@ import {
 import { logInfo } from '../../logConfig/loggers';
 import brazilianStates from '../constants/brazilianStates';
 import CpfField from '../components/CpfField';
-import NameField from '../components/NameField';
-import EmailField from '../components/EmailField';
 import PasswordField from '../components/PasswordField';
 import GenericField from '../components/GenericField';
 import PhoneField from '../components/PhoneField';
@@ -39,6 +37,7 @@ import DropdownComponent from '../components/DropdownComponent';
 import MunicipalDistrict from '../components/MunicipalDistrict';
 import ButtonWithActivityIndicator from '../components/ButtonWithActivityIndicator';
 import { backHandlerPop } from '../NavigationFunctions';
+import regex from '../../src/RegexList';
 
 const FILE_NAME = 'RegisterScreen.js';
 
@@ -248,24 +247,21 @@ export default class RegisterScreen extends React.Component {
     logInfo(FILE_NAME, 'render()',
       `State of register page: ${JSON.stringify(this.state, null, 2)}`);
 
-    // Testing regex list
-    const sixMoreWordCharRegex = /\w{6,}/;
-
     return (
       <View style={styles.principal}>
         <Header />
         <KeyboardAvoidingView style={styles.content} behavior="padding">
           <ScrollView>
             <View style={{ paddingHorizontal: 15 }}>
-
+              {/* Name Field */}
               <GenericField
-                header="Genérico"
-                placeholderMessage="Componente de Input"
+                header="Nome"
+                placeholderMessage="Digite o seu nome"
                 icon="chevrons-up"
-                setStateValue={newValue => this.setState({ teste: newValue })}
-                onChange={console.warn('OnChange', this.state.teste)}
-                regexInput={sixMoreWordCharRegex}
-                errorMessage="Está errado!"
+                setStateValue={newValue => this.setState({ name: newValue })}
+                keyboardType="default"
+                regexInput={regex.nameRegex}
+                errorMessage="Por favor, digite um nome válido."
               />
 
               <Text>CPF</Text>
@@ -275,19 +271,15 @@ export default class RegisterScreen extends React.Component {
                   this.setState({ profile: { ...this.state.profile, cpf: validCpf } })}
               />
 
-              <Text>Nome</Text>
-              <NameField
-                value={this.state.name}
-                callback={validName => this.setState({ name: validName })}
-              />
-
-              <Text>Email</Text>
-
-              <EmailField
-                value={this.state.email}
-                callback={validEmail => this.setState({ email: validEmail })}
-                placeholder="Digite o seu email"
-                size={26}
+              {/* Email Field */}
+              <GenericField
+                header="Email"
+                placeholderMessage="Digite um email que você tenha acesso"
+                icon="chevrons-up"
+                setStateValue={newValue => this.setState({ email: newValue })}
+                keyboardType="email-address"
+                regexInput={regex.emailRegex}
+                errorMessage="Por favor, digite um email válido."
               />
 
               <Text>Senha</Text>

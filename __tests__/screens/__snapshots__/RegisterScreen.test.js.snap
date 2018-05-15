@@ -34,11 +34,12 @@ exports[`Testing RegisterScreen renders as expected 1`] = `
         }
       >
         <GenericField
-          errorMessage="Está errado!"
-          header="Genérico"
+          errorMessage="Por favor, digite um nome válido."
+          header="Nome"
           icon="chevrons-up"
-          placeholderMessage="Componente de Input"
-          regexInput={/\\\\w\\{6,\\}/}
+          keyboardType="default"
+          placeholderMessage="Digite o seu nome"
+          regexInput={/\\(\\[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ \\]\\)\\{3,\\}/}
           setStateValue={[Function]}
         />
         <Text
@@ -53,33 +54,14 @@ exports[`Testing RegisterScreen renders as expected 1`] = `
           callback={[Function]}
           value=""
         />
-        <Text
-          accessible={true}
-          allowFontScaling={true}
-          disabled={false}
-          ellipsizeMode="tail"
-        >
-          Nome
-        </Text>
-        <NameField
-          callback={[Function]}
-          value=""
-        />
-        <Text
-          accessible={true}
-          allowFontScaling={true}
-          disabled={false}
-          ellipsizeMode="tail"
-        >
-          Email
-        </Text>
-        <EmailField
-          callback={[Function]}
-          onSubmitEditing={[Function]}
-          placeholder="Digite o seu email"
-          size={26}
-          value=""
-          width={null}
+        <GenericField
+          errorMessage="Por favor, digite um email válido."
+          header="Email"
+          icon="chevrons-up"
+          keyboardType="email-address"
+          placeholderMessage="Digite um email que você tenha acesso"
+          regexInput={/\\^\\(\\(\\[\\^<>\\(\\)\\\\\\[\\\\\\]\\\\\\\\\\.,;:\\\\s@"\\]\\+\\(\\\\\\.\\[\\^<>\\(\\)\\\\\\[\\\\\\]\\\\\\\\\\.,;:\\\\s@"\\]\\+\\)\\*\\)\\|\\("\\.\\+"\\)\\)@\\(\\(\\\\\\[\\[0-9\\]\\{1,3\\}\\\\\\.\\[0-9\\]\\{1,3\\}\\\\\\.\\[0-9\\]\\{1,3\\}\\\\\\.\\[0-9\\]\\{1,3\\}\\]\\)\\|\\(\\(\\[a-zA-Z\\\\-0-9\\]\\+\\\\\\.\\)\\+\\[a-zA-Z\\]\\{2,\\}\\)\\)\\$/}
+          setStateValue={[Function]}
         />
         <Text
           accessible={true}
