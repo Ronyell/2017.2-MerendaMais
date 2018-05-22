@@ -2,16 +2,16 @@ import React from 'react';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import configureStore from 'redux-mock-store';
-import { TouchableOpacity, TextInput, ActivityIndicator, Picker } from 'react-native';
+import { TouchableOpacity, /* TextInput, */ ActivityIndicator, Picker } from 'react-native';
 // imported as a connected component!
 import RegisterScreenContainer from '../../src/Containers/RegisterScreenContainer';
 import RegisterScreen from '../../src/screens/RegisterScreen';
-import CpfField from '../../src/components/CpfField';
-import NameField from '../../src/components/NameField';
-import GenericField from '../../src/components/GenericField';
-import EmailField from '../../src/components/EmailField';
-import PasswordField from '../../src/components/PasswordField';
-import PhoneField from '../../src/components/PhoneField';
+// import CpfField from '../../src/components/CpfField';
+// import NameField from '../../src/components/NameField';
+// import GenericField from '../../src/components/GenericField';
+// import EmailField from '../../src/components/EmailField';
+// import PasswordField from '../../src/components/PasswordField';
+// import PhoneField from '../../src/components/PhoneField';
 import DropdownComponent from '../../src/components/DropdownComponent';
 import ButtonWithActivityIndicator from '../../src/components/ButtonWithActivityIndicator';
 
