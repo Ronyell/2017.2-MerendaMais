@@ -29,10 +29,7 @@ import {
 } from '../constants/generalConstants';
 import { logInfo } from '../../logConfig/loggers';
 import brazilianStates from '../constants/brazilianStates';
-import CpfField from '../components/CpfField';
-import PasswordField from '../components/PasswordField';
 import GenericField from '../components/GenericField';
-import PhoneField from '../components/PhoneField';
 import DropdownComponent from '../components/DropdownComponent';
 import MunicipalDistrict from '../components/MunicipalDistrict';
 import ButtonWithActivityIndicator from '../components/ButtonWithActivityIndicator';
@@ -119,7 +116,6 @@ export default class RegisterScreen extends React.Component {
     super(props);
 
     this.state = {
-      teste: '',
       email: '',
       name: '',
       password: '',
@@ -139,6 +135,7 @@ export default class RegisterScreen extends React.Component {
     };
 
     this.register = this.register.bind(this);
+    this.checkEqualPassword = this.checkEqualPassword.bind(this);
   }
 
   componentWillMount() {
@@ -149,90 +146,35 @@ export default class RegisterScreen extends React.Component {
     BackHandler.removeEventListener('hardwareBackPress', backHandlerPop);
   }
 
+  checkEqualPassword(toCompare) {
+    return toCompare === this.state.password;
+  }
 
   // Verify if there's a error in some field form.
   register() {
-    const cpfRegex = /[0-9]{11}/g;
-    const nameRegex = /[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]/g;
-    const emailRegex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    const passwordRegex = /^(?=.{6,})(?!.*\s).*$/g;
-    const phoneRegex1 = /[0-9]{11}/g;
-    const phoneRegex2 = /[0-9]{10}/g;
-
     let error = false;
-    let errorMessage = '';
+    const errorMessage = 'Por favor, verifique os dados se todos os dados foram inseridos e são válidos!';
 
-    // Validating CPF.
-    if (!cpfRegex.test(this.state.profile.cpf)) {
+    // Validation for form fields using GenericField
+    if (!this.state.name ||
+      !this.state.profile.cpf ||
+      !this.state.email ||
+      !this.state.profile.phone ||
+      !this.state.password ||
+      !this.state.passwordCompared) {
+      console.warn('Erro no registro');
       error = true;
-      errorMessage += 'CPF inválido.\n';
     }
 
-    // Validating Name.
-    if (!nameRegex.test(this.state.name) || this.state.name.trim() === '') {
+    // Validating CAE information input
+    if (this.state.profile.isPresident === '' ||
+    this.state.profile.counselorType === '' ||
+    this.state.profile.segment === '' ||
+    this.state.profile.CAE_Type === '' ||
+    this.state.profile.CAE_UF === '' ||
+    (this.state.profile.CAE_Type === MUNICIPAL_COUNSELOR_CAE &&
+      this.state.profile.CAE_municipalDistrict === '')) {
       error = true;
-      errorMessage += 'Nome inválido.\n';
-    }
-
-    // Validating Password.
-    if (!passwordRegex.test(this.state.password)) {
-      error = true;
-      errorMessage += 'Senha Inválida (*Não deve ter espaços *Tamanho mínimo 6 caracteres).\n';
-    }
-
-    // Validating Match Password
-    if (this.state.password !== this.state.passwordCompared) {
-      error = true;
-      errorMessage += 'Senhas digitadas devem ser iguais.\n';
-    }
-
-    // Validating Email.
-    if (!emailRegex.test(this.state.email)) {
-      error = true;
-      errorMessage += 'Email inválido.\n';
-    }
-
-    // Validating Phone.
-    if (!phoneRegex1.test(this.state.profile.phone) &&
-      !phoneRegex2.test(this.state.profile.phone)) {
-      error = true;
-      errorMessage += 'Telefone inválido.\n';
-    }
-
-    // Validating is President.
-    if (this.state.profile.isPresident === '') {
-      error = true;
-      errorMessage += 'Cargo não selecionado.\n';
-    }
-
-    // Validating Counselor Type.
-    if (this.state.profile.counselorType === '') {
-      error = true;
-      errorMessage += 'Tipo de Conselheiro não selecionado\n';
-    }
-
-    // Validating Segment.
-    if (this.state.profile.segment === '') {
-      error = true;
-      errorMessage += 'Segmento não selecionado.\n';
-    }
-
-    // Validating CAE type.
-    if (this.state.profile.CAE_Type === '') {
-      error = true;
-      errorMessage += 'Tipo de CAE não selecionado.\n';
-    }
-
-    // Validating CAE UF.
-    if (this.state.profile.CAE_UF === '') {
-      error = true;
-      errorMessage += 'UF não selecionada\n';
-    }
-
-    // Validating CAE municipal district.
-    if (this.state.profile.CAE_Type === MUNICIPAL_COUNSELOR_CAE && this.state.profile.CAE_municipalDistrict === '') {
-      error = true;
-      errorMessage += 'Município não selecionado\n';
     }
 
     // Checking if was found a irregularity in register fields.
@@ -253,61 +195,76 @@ export default class RegisterScreen extends React.Component {
         <KeyboardAvoidingView style={styles.content} behavior="padding">
           <ScrollView>
             <View style={{ paddingHorizontal: 15 }}>
+
               {/* Name Field */}
               <GenericField
                 header="Nome"
-                placeholderMessage="Digite o seu nome"
-                icon="chevrons-up"
+                placeholderMessage="Qual o seu nome?"
+                icon="user"
                 setStateValue={newValue => this.setState({ name: newValue })}
-                keyboardType="default"
                 regexInput={regex.nameRegex}
-                errorMessage="Por favor, digite um nome válido."
+                errorMessage="Por favor, digite um nome compatível."
               />
 
-              <Text>CPF</Text>
-              <CpfField
-                value={this.state.profile.cpf}
-                callback={validCpf =>
-                  this.setState({ profile: { ...this.state.profile, cpf: validCpf } })}
+              {/* CPF Field */}
+              <GenericField
+                header="CPF"
+                placeholderMessage="Informe o seu CPF"
+                icon="id-card"
+                setStateValue={newValue =>
+                  this.setState({ profile: { ...this.state.profile, cpf: newValue } })}
+                keyboardType="numeric"
+                regexInput={regex.cpfRegex}
+                errorMessage="Por favor, informe um CPF válido."
               />
 
               {/* Email Field */}
               <GenericField
                 header="Email"
-                placeholderMessage="Digite um email que você tenha acesso"
-                icon="chevrons-up"
+                placeholderMessage="Informe um email que você tenha acesso"
+                icon="at"
                 setStateValue={newValue => this.setState({ email: newValue })}
                 keyboardType="email-address"
                 regexInput={regex.emailRegex}
-                errorMessage="Por favor, digite um email válido."
+                errorMessage="Por favor, informe um email válido."
               />
 
-              <Text>Senha</Text>
-              <PasswordField
-                callback={validPassword => this.setState({ password: validPassword })}
-                password={this.state.password}
-                placeholder="Digite sua senha"
-                isPassword
-                size={26}
+              {/* Password Field */}
+              <GenericField
+                header="SENHA"
+                placeholderMessage="Informe uma senha para acesso"
+                icon="unlock-alt"
+                setStateValue={newValue => this.setState({ password: newValue })}
+                regexInput={regex.passwordRegex}
+                secureInput
+                maxSize={30}
+                errorMessage="Sua senha deve ter no mínimo 6 digitos e nenhum espaço"
               />
 
-              <Text>Confirmar Senha</Text>
-              <PasswordField
-                callback={validPassword => this.setState({ passwordCompared: validPassword })}
-                password={this.state.password}
-                passwordCompared={this.state.passwordCompared}
-                placeholder="Digite sua senha novamente"
-                isPassword={false}
-                size={26}
+              {/* Password Confirmation Field */}
+              <GenericField
+                header="VALIDAR SENHA"
+                placeholderMessage="Informe novamente a senha digitada acima"
+                icon="unlock-alt"
+                setStateValue={newValue => this.setState({ passwordCompared: newValue })}
+                regexInput={regex.passwordRegex}
+                customValidator={this.checkEqualPassword}
+                secureInput
+                maxSize={30}
+                errorMessage="As senhas não são iguais"
               />
 
-              <Text>Telefone</Text>
-              <PhoneField
-                value={this.state.profile.phone}
-                callback={validPhone =>
-                  this.setState({ profile: { ...this.state.profile, phone: validPhone } })}
+              {/* Phone Field */}
+              <GenericField
+                header="TELEFONE"
+                placeholderMessage="Informe o seu telefone"
+                icon="phone"
+                setStateValue={newValue =>
+                  this.setState({ profile: { ...this.state.profile, phone: newValue } })}
+                keyboardType="phone-pad"
+                regexInput={regex.phoneRegex1}
+                errorMessage="Por favor, digite um telefone válido (DDD Telefone)."
               />
-
 
               <Text>Cargo</Text>
               <DropdownComponent

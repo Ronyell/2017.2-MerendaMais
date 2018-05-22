@@ -15,31 +15,33 @@ export default class GenericField extends Component {
     };
   }
 
+  // This calls the appropriate function to validate text
   handleInput(newText) {
-    this.setState({ text: newText.trim() }, () => {
-      this.validateText(this.state.text, this.props.regexInput);
-    });
+    if (this.props.customValidator === undefined) {
+      this.setState({ text: newText.trim() }, () => {
+        this.validateByRegex(this.state.text, this.props.regexInput);
+      });
+    } else {
+      this.setState({ text: newText.trim() }, () => {
+        this.validateByCustom(this.state.text);
+      });
+    }
   }
 
+  // This is called after validateText() evaluation, if success
   handleValidText() {
     this.setState({ errorTextArea: <Text /> });
     this.setState({ styleInUse: [styles.InputFieldStyle, { borderColor: '#80FF80', backgroundColor: '#d1ffd1', borderWidth: 2 }] });
   }
 
+  // This is called after validateText() evaluation, if failed
   handleInvalidText() {
     this.setState({ errorTextArea: <Text>{this.props.errorMessage}</Text> });
     this.setState({ styleInUse: [styles.InputFieldStyle, { borderColor: '#FF9999', backgroundColor: '#ffd6d6', borderWidth: 2 }] });
   }
 
-  validateText(text, regexTest) {
-    if (regexTest.global) {
-      console.warn('validateText()', 'RegExp using global flag! The results may be wrong.');
-    } else {
-      // Do nothing
-    }
-
-    const isTextValid = regexTest.test(text);
-
+  // This is called after checking if a text is valid or not
+  validateText(text, isTextValid) {
     if (isTextValid) {
       // setStateValue is the function in props at the component creation
       this.props.setStateValue(this.state.text);
@@ -49,7 +51,25 @@ export default class GenericField extends Component {
       this.setState({ styleInUse: styles.genericViewSection });
     } else {
       this.handleInvalidText();
+      this.props.setStateValue('');
     }
+  }
+
+  // Validates the text by regex and calls validateText()
+  validateByRegex(text, regexTest) {
+    if (regexTest.global) {
+      console.warn('validateText()', 'RegExp using global flag! The results may be wrong.');
+    }
+
+    const isTextValid = regexTest.test(text) && text.length <= this.props.maxSize;
+    this.validateText(text, isTextValid);
+  }
+
+  // Validates the text by a custom function and calls validateText()
+  // OBS: You should provide a boolean function at component props instance!
+  validateByCustom(text) {
+    const isTextValid = this.props.customValidator(text);
+    this.validateText(text, isTextValid);
   }
 
   render() {
@@ -57,7 +77,7 @@ export default class GenericField extends Component {
       <View>
         <Text> {this.props.header.toUpperCase().trim()} </Text>
         <View style={this.state.styleInUse}>
-          <FontAwesome name="user-circle" style={styles.icon} size={26} color="black" />
+          <FontAwesome name={this.props.icon} style={styles.icon} size={26} color="black" />
           <TextInput
             style={styles.InputStyle}
             placeholder={this.props.placeholderMessage.trim()}
@@ -65,6 +85,7 @@ export default class GenericField extends Component {
             value={this.state.test}
             keyboardType={this.props.keyboardType}
             underlineColorAndroid="transparent"
+            secureTextEntry={this.props.secureInput}
             onChangeText={text => this.handleInput(text)}
           />
         </View>
@@ -78,10 +99,21 @@ export default class GenericField extends Component {
 GenericField.propTypes = {
   header: PropTypes.string.isRequired,
   placeholderMessage: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
   setStateValue: PropTypes.func.isRequired,
   regexInput: PropTypes.string.isRequired,
-  keyboardType: PropTypes.string.isRequired,
+  customValidator: PropTypes.any, // eslint-disable-line
+  maxSize: PropTypes.number,
+  keyboardType: PropTypes.string,
+  secureInput: PropTypes.bool,
   errorMessage: PropTypes.string.isRequired,
+};
+
+GenericField.defaultProps = {
+  secureInput: false,
+  keyboardType: 'default',
+  maxSize: 300,
+  customValidator: undefined,
 };
 
 // export default GenericField;

@@ -34,82 +34,71 @@ exports[`Testing RegisterScreen renders as expected 1`] = `
         }
       >
         <GenericField
-          errorMessage="Por favor, digite um nome válido."
+          errorMessage="Por favor, digite um nome compatível."
           header="Nome"
-          icon="chevrons-up"
+          icon="user"
           keyboardType="default"
-          placeholderMessage="Digite o seu nome"
+          maxSize={300}
+          placeholderMessage="Qual o seu nome?"
           regexInput={/\\(\\[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ \\]\\)\\{3,\\}/}
+          secureInput={false}
           setStateValue={[Function]}
-        />
-        <Text
-          accessible={true}
-          allowFontScaling={true}
-          disabled={false}
-          ellipsizeMode="tail"
-        >
-          CPF
-        </Text>
-        <CpfField
-          callback={[Function]}
-          value=""
         />
         <GenericField
-          errorMessage="Por favor, digite um email válido."
-          header="Email"
-          icon="chevrons-up"
-          keyboardType="email-address"
-          placeholderMessage="Digite um email que você tenha acesso"
-          regexInput={/\\^\\(\\(\\[\\^<>\\(\\)\\\\\\[\\\\\\]\\\\\\\\\\.,;:\\\\s@"\\]\\+\\(\\\\\\.\\[\\^<>\\(\\)\\\\\\[\\\\\\]\\\\\\\\\\.,;:\\\\s@"\\]\\+\\)\\*\\)\\|\\("\\.\\+"\\)\\)@\\(\\(\\\\\\[\\[0-9\\]\\{1,3\\}\\\\\\.\\[0-9\\]\\{1,3\\}\\\\\\.\\[0-9\\]\\{1,3\\}\\\\\\.\\[0-9\\]\\{1,3\\}\\]\\)\\|\\(\\(\\[a-zA-Z\\\\-0-9\\]\\+\\\\\\.\\)\\+\\[a-zA-Z\\]\\{2,\\}\\)\\)\\$/}
+          errorMessage="Por favor, informe um CPF válido."
+          header="CPF"
+          icon="id-card"
+          keyboardType="numeric"
+          maxSize={300}
+          placeholderMessage="Informe o seu CPF"
+          regexInput={/\\[0-9\\]\\{11\\}/}
+          secureInput={false}
           setStateValue={[Function]}
         />
-        <Text
-          accessible={true}
-          allowFontScaling={true}
-          disabled={false}
-          ellipsizeMode="tail"
-        >
-          Senha
-        </Text>
-        <PasswordField
-          callback={[Function]}
-          focus={false}
-          isPassword={true}
-          password=""
-          passwordCompared=""
-          placeholder="Digite sua senha"
-          size={26}
-          width=""
+        <GenericField
+          errorMessage="Por favor, informe um email válido."
+          header="Email"
+          icon="at"
+          keyboardType="email-address"
+          maxSize={300}
+          placeholderMessage="Informe um email que você tenha acesso"
+          regexInput={/\\^\\(\\(\\[\\^<>\\(\\)\\\\\\[\\\\\\]\\\\\\\\\\.,;:\\\\s@"\\]\\+\\(\\\\\\.\\[\\^<>\\(\\)\\\\\\[\\\\\\]\\\\\\\\\\.,;:\\\\s@"\\]\\+\\)\\*\\)\\|\\("\\.\\+"\\)\\)@\\(\\(\\\\\\[\\[0-9\\]\\{1,3\\}\\\\\\.\\[0-9\\]\\{1,3\\}\\\\\\.\\[0-9\\]\\{1,3\\}\\\\\\.\\[0-9\\]\\{1,3\\}\\]\\)\\|\\(\\(\\[a-zA-Z\\\\-0-9\\]\\+\\\\\\.\\)\\+\\[a-zA-Z\\]\\{2,\\}\\)\\)\\$/}
+          secureInput={false}
+          setStateValue={[Function]}
         />
-        <Text
-          accessible={true}
-          allowFontScaling={true}
-          disabled={false}
-          ellipsizeMode="tail"
-        >
-          Confirmar Senha
-        </Text>
-        <PasswordField
-          callback={[Function]}
-          focus={false}
-          isPassword={false}
-          password=""
-          passwordCompared=""
-          placeholder="Digite sua senha novamente"
-          size={26}
-          width=""
+        <GenericField
+          errorMessage="Sua senha deve ter no mínimo 6 digitos e nenhum espaço"
+          header="SENHA"
+          icon="unlock-alt"
+          keyboardType="default"
+          maxSize={30}
+          placeholderMessage="Informe uma senha para acesso"
+          regexInput={/\\^\\(\\?=\\.\\{6,\\}\\)\\(\\?!\\.\\*\\\\s\\)\\.\\*\\$/}
+          secureInput={true}
+          setStateValue={[Function]}
         />
-        <Text
-          accessible={true}
-          allowFontScaling={true}
-          disabled={false}
-          ellipsizeMode="tail"
-        >
-          Telefone
-        </Text>
-        <PhoneField
-          callback={[Function]}
-          value=""
+        <GenericField
+          customValidator={[Function]}
+          errorMessage="As senhas não são iguais"
+          header="VALIDAR SENHA"
+          icon="unlock-alt"
+          keyboardType="default"
+          maxSize={30}
+          placeholderMessage="Informe novamente a senha digitada acima"
+          regexInput={/\\^\\(\\?=\\.\\{6,\\}\\)\\(\\?!\\.\\*\\\\s\\)\\.\\*\\$/}
+          secureInput={true}
+          setStateValue={[Function]}
+        />
+        <GenericField
+          errorMessage="Por favor, digite um telefone válido (DDD Telefone)."
+          header="TELEFONE"
+          icon="phone"
+          keyboardType="phone-pad"
+          maxSize={300}
+          placeholderMessage="Informe o seu telefone"
+          regexInput={/\\[0-9\\]\\{11,12\\}/}
+          secureInput={false}
+          setStateValue={[Function]}
         />
         <Text
           accessible={true}
