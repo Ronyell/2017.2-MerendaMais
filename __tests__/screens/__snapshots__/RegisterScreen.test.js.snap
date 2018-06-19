@@ -469,7 +469,7 @@ exports[`Testing RegisterScreen renders as expected 1`] = `
         "alignItems": "center",
         "borderTopColor": "#a9a9a9",
         "borderTopWidth": 1,
-        "flex": 0.08,
+        "flex": 0.5,
         "justifyContent": "center",
       }
     }
