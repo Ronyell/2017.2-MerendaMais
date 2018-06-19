@@ -11,7 +11,7 @@ import {
   Alert,
 } from 'react-native';
 import axios from 'axios';
-import { MaterialIcons } from '@expo/vector-icons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Actions } from 'react-native-router-flux';
 import { logInfo, logWarn } from '../../../logConfig/loggers';
 import ShowToast from '../../components/Toast';
@@ -220,7 +220,7 @@ export default class MainReportsScreen extends React.Component {
 
         // Creating content in Inspection post.
         allContentsResponse.push(
-          axios.post(`${POSTS_LINK_NUVEM_CIVICA}${codPostagem}/conteudos`,
+          axios.post(`${POSTS_LINK_NUVEM_CIVICA}/${codPostagem}/conteudos`,
             bodyToInspectionContent,
             headerToInspectionContent,
           ),
@@ -439,6 +439,8 @@ export default class MainReportsScreen extends React.Component {
       codConteudoPost: this.props.scheduleVisit.currentVisit.codConteudoPost,
       codPostagem: this.props.scheduleVisit.currentVisit.codPostagem,
     };
+
+    console.log(getData);
 
     await this.props.asyncGetCurrentSchedule(getData);
 

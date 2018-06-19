@@ -3,9 +3,8 @@ import { Actions } from 'react-native-router-flux';
 import { StyleSheet,
   Text,
   View,
-  Image,
+  ImageBackground,
   TouchableOpacity } from 'react-native';
-
 
 const initialBackgroundImage = require('../images/initial_background.jpg');
 
@@ -57,12 +56,11 @@ const styles = StyleSheet.create({
 const InitialScreen = () => ({
   render() {
     return (
-      <Image style={styles.initialBackgroundImage} source={initialBackgroundImage}>
+      <ImageBackground style={styles.initialBackgroundImage} source={initialBackgroundImage}>
         <View style={styles.initialScreen}>
           <View style={{ flex: 1, alignItems: 'center' }}>
             <Text style={styles.titleText}>MERENDA +</Text>
           </View>
-
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <TouchableOpacity
               style={styles.loginButton}
@@ -81,7 +79,7 @@ const InitialScreen = () => ({
             </TouchableOpacity>
           </View>
         </View>
-      </Image>
+      </ImageBackground>
 
     );
   },

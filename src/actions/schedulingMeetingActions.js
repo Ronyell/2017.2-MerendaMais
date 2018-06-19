@@ -103,7 +103,7 @@ const defineMeetingStatus = (meetingSchedule, counselor, dispatch) => {
 };
 
 // Treating request errors
-const treatingPostsError = (error) => {
+export const treatingPostsError = (error) => {
   if (error.response.status === 401) {
     logWarn(FILE_NAME, 'treatingPostsError',
       `Unauthorized according to the Nuvem - Error code received in request - ${error.response.status}`);
@@ -254,7 +254,7 @@ export const schedulingMeeting = (meetingData, dispatch) => {
     },
   };
 
-  axios.post(`${POSTS_LINK_NUVEM_CIVICA}conteudos`, bodyToSchedulingMeeting, headerToSchedulingMeeting)
+  axios.post(`${POSTS_LINK_NUVEM_CIVICA}/conteudos`, bodyToSchedulingMeeting, headerToSchedulingMeeting)
     .then((response) => {
       logInfo(FILE_NAME, 'schedulingMeeting',
         `Scheduling made in Nuvem cívica: ${JSON.stringify(response.data, null, 2)}`);

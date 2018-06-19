@@ -128,8 +128,8 @@ export default class RegisterScreen extends React.Component {
     return (
       <View style={styles.principal}>
         <Header />
-        <KeyboardAvoidingView style={styles.content} behavior="padding">
-          <ScrollView>
+        <ScrollView style={styles.content}>
+          <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
             <View style={{ paddingHorizontal: 15 }}>
 
               {/* Name Field */}
@@ -338,8 +338,9 @@ export default class RegisterScreen extends React.Component {
               />
 
             </View>
-          </ScrollView>
-        </KeyboardAvoidingView>
+          </KeyboardAvoidingView>
+        </ScrollView>
+
 
         <View style={styles.footer}>
           <TouchableOpacity

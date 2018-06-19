@@ -6,7 +6,9 @@ import { logInfo, logWarn } from '../../logConfig/loggers';
 import { convertingJSONToString } from './counselorActions';
 import { isLoading, isNotLoading } from './applicationActions';
 import ShowToast from '../components/Toast';
-import { SET_CURRENT_INSPECTION } from './types';
+import {
+  SET_CURRENT_INSPECTION,
+} from './types';
 import {
   APP_IDENTIFIER,
   POSTS_LINK_NUVEM_CIVICA,
@@ -38,6 +40,7 @@ export const setCurrentInspection = visitSchedule => ({
   type: SET_CURRENT_INSPECTION,
   payload: visitSchedule,
 });
+
 
 // Trating request errors
 const treatingGetVisitSchedulePostListError = (status) => {
@@ -319,7 +322,7 @@ const schedulingVisit = (visitData, counselor) => {
     },
   };
 
-  axios.post(`${POSTS_LINK_NUVEM_CIVICA}conteudos`, bodyToSchedulingVisit, headerToSchedulingVisit)
+  axios.post(`${POSTS_LINK_NUVEM_CIVICA}/conteudos`, bodyToSchedulingVisit, headerToSchedulingVisit)
     .then((response) => {
       logInfo(FILE_NAME, 'schedulingVisit',
         `Scheduling made in Nuvem cívica: ${JSON.stringify(response.data, null, 2)}`);
@@ -379,10 +382,9 @@ export const asyncUpdateSchedule = postData => async (dispatch) => {
 
   try {
     const response = await axios.put(
-      `${POSTS_LINK_NUVEM_CIVICA}${postData.codPostagem}/conteudos/${postData.codConteudoPost}`,
+      `${POSTS_LINK_NUVEM_CIVICA}/${postData.codPostagem}/conteudos/${postData.codConteudoPost}`,
       putScheduleBody,
       putScheduleHeader);
-
     logInfo(FILE_NAME, 'asyncUpdateSchedule', response.data);
   } catch (error) {
     logWarn(FILE_NAME, 'asyncUpdateSchedule', error.stack);
@@ -391,6 +393,7 @@ export const asyncUpdateSchedule = postData => async (dispatch) => {
 
   dispatch(isNotLoading());
 };
+
 
 export const asyncGetCurrentSchedule = getData => async (dispatch) => {
   logInfo(FILE_NAME, 'asyncGetCurrentSchedule', `Received data: ${JSON.stringify(getData)}`);
@@ -405,7 +408,7 @@ export const asyncGetCurrentSchedule = getData => async (dispatch) => {
   const codConteudoPost = getData.codConteudoPost;
 
   try {
-    const response = await axios.get(`${POSTS_LINK_NUVEM_CIVICA}${codPostagem}/conteudos/${codConteudoPost}`, header);
+    const response = await axios.get(`${POSTS_LINK_NUVEM_CIVICA}/${codPostagem}/conteudos/${codConteudoPost}`, header);
 
     logInfo(FILE_NAME, 'asyncGetCurrentSchedule', `Response data: ${JSON.stringify(response.data)}`);
 

@@ -1,8 +1,9 @@
 import React from 'react';
-import { Ionicons } from '@expo/vector-icons';
 import { View, StyleSheet, Text, TouchableOpacity, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 
 const { width } = Dimensions.get('window');
 
@@ -16,7 +17,7 @@ const styles = StyleSheet.create(
     buttonWrapper: {
     },
     wrapper: {
-      height: 100,
+      height: 60,
       flexDirection: 'row',
       paddingTop: 10,
       paddingBottom: 10,
