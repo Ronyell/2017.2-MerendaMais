@@ -5,6 +5,7 @@ import { REACT_NATIVE_EMAIL, REACT_NATIVE_PASS } from 'react-native-dotenv';
 import { Alert } from 'react-native';
 import { RESET_LIST } from './types';
 import { logInfo, logWarn } from '../../logConfig/loggers';
+import { convertingJSONToString } from '../services/jsonUtils'
 import {
   APP_IDENTIFIER,
   AUTHENTICATE_LINK_NUVEM_CIVICA,
@@ -40,16 +41,6 @@ export const authenticatingMasterCounselor = async () => {
   } catch (error) {
     throw new Error('Não foi possível adquirir token para desassociação.');
   }
-};
-
-export const convertingJSONToString = (profileJSON) => {
-  // Converting profile JSON to profile string received from Nuvem Civica.
-  const profileStringDoubleQuote = JSON.stringify(profileJSON);
-
-  // Changing " to '.
-  const profileStringSingleQuote = profileStringDoubleQuote.replace(/"/g, "'");
-
-  return profileStringSingleQuote;
 };
 
 const acceptCounselor = async (counselorData) => {

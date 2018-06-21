@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 import Communications from 'react-native-communications';
 import { Actions } from 'react-native-router-flux';
 import { logInfo, logWarn } from '../../logConfig/loggers';
-import { convertingJSONToString } from './counselorActions';
+import { convertingJSONToString } from '../services/jsonUtils'
 import { isLoading, isNotLoading } from './applicationActions';
 import ShowToast from '../components/Toast';
 import { SET_CURRENT_INSPECTION } from './types';

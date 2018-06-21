@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { authenticatingMasterCounselor } from './ManagerRegisterActions';
+import { convertingJSONToString } from '../services/jsonUtils'
 import {
   SET_COUNSELOR,
   SET_TOKEN,
@@ -162,17 +163,6 @@ const treatingAuthenticatingCounselorInLoginError = (status) => {
 };
 
 // Functions focused in Counselor Register
-
-// Used in Async Action to Register Counselor
-export const convertingJSONToString = (profileJSON) => {
-  // Converting profile JSON to profile string received from Nuvem Civica.
-  const profileStringDoubleQuote = JSON.stringify(profileJSON);
-
-  // Changing " to '.
-  const profileStringSingleQuote = profileStringDoubleQuote.replace(/"/g, "'");
-
-  return profileStringSingleQuote;
-};
 
 const addCounselorToGroup = (counselor, appToken, nuvemCode, codGroup, dispatch) => {
   const headerAddGroup = {

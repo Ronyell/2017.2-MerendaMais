@@ -44,7 +44,7 @@ import {
   UPDATE_CURRENT_SCHEDULE_ERROR,
   BEFORE_INPECTION_POST_ERROR,
 } from '../../constants/errorConstants';
-import { convertingJSONToString } from '../../actions/counselorActions';
+import { convertingJSONToString } from '../services/jsonUtils'
 import { errorGenerator } from '../../actions/schedulingVisitActions';
 import Header from '../../components/Header';
 import ButtonWithActivityIndicator from '../../components/ButtonWithActivityIndicator';
